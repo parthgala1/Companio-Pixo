@@ -97,7 +97,10 @@ final class ElevenLabsService: ObservableObject {
     // MARK: - API Call
 
     private func fetchAudio(text: String, apiKey: String, emotionState: EmotionState) async throws -> Data {
-        let url = URL(string: "https://api.elevenlabs.io/v1/text-to-speech/\(voiceID)")!
+        // output_format must be a query parameter, not in the JSON body
+        var components = URLComponents(string: "https://api.elevenlabs.io/v1/text-to-speech/\(voiceID)")!
+        components.queryItems = [URLQueryItem(name: "output_format", value: "mp3_44100_128")]
+        let url = components.url!
 
         // Emotion-conditioned voice settings
         let stability = 0.4 + emotionState.arousal * 0.3       // Higher arousal = less stable (more expressive)
@@ -112,8 +115,7 @@ final class ElevenLabsService: ObservableObject {
                 "similarity_boost": similarityBoost,
                 "style": max(0.0, emotionState.valence * 0.5),
                 "use_speaker_boost": true
-            ],
-            "output_format": "mp3_44100_128"
+            ]
         ]
 
         var request = URLRequest(url: url)
@@ -152,6 +154,18 @@ final class ElevenLabsService: ObservableObject {
             throw ElevenLabsError.audioDecodeError
         }
         try audioFile.read(into: buffer)
+
+        // Reconfigure audio engine with the decoded format to avoid mismatches
+        // (SpeechService may have reclaimed the audio session since init)
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playAndRecord, mode: .default,
+                                  options: [.defaultToSpeaker, .allowBluetooth])
+        try? session.setActive(true)
+
+        // Reconnect with the buffer's actual format
+        audioEngine.disconnectNodeOutput(playerNode)
+        audioEngine.connect(playerNode, to: audioEngine.mainMixerNode,
+                            format: audioFile.processingFormat)
 
         if !audioEngine.isRunning { try audioEngine.start() }
 

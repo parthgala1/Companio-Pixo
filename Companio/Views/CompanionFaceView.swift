@@ -74,8 +74,11 @@ struct CompanionFaceView: View {
                             width: mouthWidth
                         )
                     }
-                    .offset(y: companionVM.idleFloatOffset + faceVerticalOffset)
-                    .scaleEffect(faceScale * companionVM.touchScale)
+                    .offset(
+                        x: companionVM.angerShakeOffset,
+                        y: companionVM.idleFloatOffset + faceVerticalOffset
+                    )
+                    .scaleEffect(faceScale * companionVM.touchScale * (companionVM.smallEyesActive ? 0.88 : 1.0))
                     .rotationEffect(.degrees(companionVM.faceTiltAngle))
                     .position(x: geo.size.width / 2, y: geo.size.height / 2)
                 }
@@ -91,9 +94,24 @@ struct CompanionFaceView: View {
                     .position(x: geo.size.width / 2, y: geo.size.height / 2)
                     .transition(.scale(scale: 0.6).combined(with: .opacity))
                 }
+
+                // Overlay stack — ephemeral staggered overlays (petting, anger, etc.)
+                if !companionVM.activeOverlays.isEmpty {
+                    ForEach(companionVM.activeOverlays) { overlay in
+                        EmoteOverlayView(
+                            elements: [overlay.type],
+                            eyeColor: companionVM.eyeColor,
+                            faceWidth: faceWidth
+                        )
+                        .offset(y: companionVM.idleFloatOffset + faceVerticalOffset)
+                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                        .transition(.scale(scale: 0.5).combined(with: .opacity))
+                    }
+                }
             }
             .animation(.spring(response: 0.4, dampingFraction: 0.75), value: companionVM.handMood)
             .animation(.easeInOut(duration: 0.4), value: activeEmote?.id)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: companionVM.activeOverlays.count)
             .animation(.easeInOut(duration: 0.5), value: isLandscape)
         }
     }

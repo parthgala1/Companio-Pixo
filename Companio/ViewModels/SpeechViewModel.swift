@@ -82,10 +82,29 @@ final class SpeechViewModel: ObservableObject {
         playModeVM.setCompanionVM(companionVM)
 
         // Track ElevenLabs speaking state so UI knows about voice output
+        // and resume STT when playback finishes
         elevenLabsService.$isSpeaking
             .receive(on: DispatchQueue.main)
             .sink { [weak self] speaking in
-                if speaking { self?.isSpeaking = true }
+                guard let self else { return }
+                if speaking {
+                    self.isSpeaking = true
+                } else if self.speechService.isPaused {
+                    // ElevenLabs finished — resume always-on listening
+                    self.isSpeaking = false
+                    self.speechService.resumeListening()
+                }
+            }
+            .store(in: &cancellables)
+
+        // Also resume STT when system TTS finishes (fallback path)
+        speechService.eventPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] event in
+                guard let self else { return }
+                if case .didFinishSpeaking = event, self.speechService.isPaused {
+                    self.speechService.resumeListening()
+                }
             }
             .store(in: &cancellables)
     }
@@ -174,6 +193,8 @@ final class SpeechViewModel: ObservableObject {
 
             // Speak response unless silent mode is on
             if !isSilent {
+                // Pause STT so ElevenLabs audio engine can take the audio session
+                speechService.pauseListening()
                 elevenLabsService.speak(response, emotionState: emotionEngine.state)
             }
 
@@ -181,7 +202,10 @@ final class SpeechViewModel: ObservableObject {
             let fallback = "I'd love to chat, but I need a Groq API key first!"
             print("[Pixo] No Groq API key")
             responseText = fallback
-            if !isSilent { speechService.speak(fallback) }
+            if !isSilent {
+                speechService.pauseListening()
+                speechService.speak(fallback)
+            }
         } catch {
             let msg = error.localizedDescription
             print("[Pixo] LLM error: \(msg)")
@@ -189,6 +213,7 @@ final class SpeechViewModel: ObservableObject {
             responseText = "Pixo is thinking but something went wrong."
             emotionEngine.onNegativeOutcome()
             if !isSilent {
+                speechService.pauseListening()
                 speechService.speak("Sorry, I couldn't think of a response.")
             }
         }

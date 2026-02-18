@@ -229,14 +229,16 @@ final class CompanionViewModel: ObservableObject {
 
     private func scheduleBlink() {
         // Arousal affects blink rate: higher arousal = faster blinks
-        let baseInterval = Double.random(in: 2.5...6.0)
-        let arousalFactor = max(0.5, 1.0 - emotionEngine.state.arousal * 0.4)
+        // Clamp arousal influence so blinks never go below 2.0s
+        let baseInterval = Double.random(in: 3.0...6.0)
+        let arousalFactor = max(0.65, 1.0 - emotionEngine.state.arousal * 0.3)
         let interval = baseInterval * arousalFactor
 
         blinkTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             guard let self else { return }
-            // Skip blinks while touch is actively squinting eyes
-            if self.isTouchSquinting {
+            // Skip blinks while touch is actively squinting eyes,
+            // while Pixo is speaking, or while thinking
+            if self.isTouchSquinting || self.isTalking || self.isThinking {
                 self.scheduleBlink()
                 return
             }

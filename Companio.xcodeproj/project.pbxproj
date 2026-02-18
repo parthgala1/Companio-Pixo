@@ -16,6 +16,7 @@
 		2618882E1F0ACC9A8321D1FC /* EmotionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700288D3AAE28EE9E5B780FB /* EmotionState.swift */; };
 		2E7421161F17BEE3833BA047 /* PlayOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */; };
 		3084BB1CC3E2D247E92CAF48 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C21FE3327686CCF20C5BC /* NavigationService.swift */; };
+		376256C69795A61E09097F3D /* FaceDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448446AF36DCB614B73686E4 /* FaceDebugView.swift */; };
 		3A8399765500DECC6DCEA681 /* TouchInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FAA75B83E92BBFE97FC27A /* TouchInteractionManager.swift */; };
 		3CF647FAC861FFFC148E58AA /* LLMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3005CEE193926CA0A1C87 /* LLMService.swift */; };
 		4D4DD6BFA0BCA2438E88CBA5 /* CompanionFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445421605965EC9C873EC635 /* CompanionFaceView.swift */; };
@@ -65,6 +66,7 @@
 		34CA1082E657D77DFE28DC47 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
 		38D10415333634ECE540A4EC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		445421605965EC9C873EC635 /* CompanionFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionFaceView.swift; sourceTree = "<group>"; };
+		448446AF36DCB614B73686E4 /* FaceDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDebugView.swift; sourceTree = "<group>"; };
 		481CCDDF98EE8281ECA2692E /* Companio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Companio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EA22C34D039AED5AD68C3AC /* CompanionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionViewModel.swift; sourceTree = "<group>"; };
 		60FEF881DCD4A6DD5E39E0E4 /* UserMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemory.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				D6E7D58BB98A5CAB6464570A /* EmoteOverlayView.swift */,
 				E038800A000EB36717E3D823 /* ExpressionView.swift */,
 				97A86548A02AB4682960BD0D /* EyeView.swift */,
+				448446AF36DCB614B73686E4 /* FaceDebugView.swift */,
 				A6CF9BE9A605DD65F00EBCF8 /* HandsView.swift */,
 				07B423840FFEC4F98347A248 /* MouthView.swift */,
 				088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */,
@@ -303,6 +306,7 @@
 				0E965B5F1DE36C6F42EF32AF /* ExpressionView.swift in Sources */,
 				E442F61729EFFEC1766BEAA4 /* Extensions.swift in Sources */,
 				77A760C100B9ED0CEDC6297E /* EyeView.swift in Sources */,
+				376256C69795A61E09097F3D /* FaceDebugView.swift in Sources */,
 				83691CBE172A199609AFAE0C /* FaceDetectionService.swift in Sources */,
 				BCEE1DABEBC6E7F366F79B38 /* FeatureCommand.swift in Sources */,
 				BE7F29B8E04FDA43C6267B50 /* HandsView.swift in Sources */,

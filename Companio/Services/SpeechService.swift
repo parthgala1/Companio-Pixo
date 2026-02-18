@@ -226,6 +226,44 @@ final class SpeechService: NSObject, ObservableObject {
         }
     }
 
+    // MARK: - Pause / Resume (for TTS playback)
+
+    /// Temporarily suspends the microphone and recognition so that another
+    /// AVAudioEngine (e.g. ElevenLabsService) can own the audio session.
+    /// Call `resumeListening()` when TTS playback finishes.
+    private(set) var isPaused = false
+
+    func pauseListening() {
+        guard isListening, !isPaused else { return }
+        isPaused = true
+        print("[Pixo] SpeechService: pausing STT for TTS playback")
+
+        silenceTimer?.invalidate()
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        recognitionRequest = nil
+        recognitionTask?.cancel()
+        recognitionTask = nil
+        wakeDetected = false
+        lastPartialText = ""
+    }
+
+    /// Restarts always-on listening after a TTS pause.
+    func resumeListening() {
+        guard isPaused else { return }
+        isPaused = false
+        print("[Pixo] SpeechService: resuming STT after TTS playback")
+
+        // Small delay to let the audio session settle after playback stops
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            guard let self, self.alwaysOnListening else { return }
+            self.isListening = false
+            self.configureAudioSession()
+            self.startListening()
+        }
+    }
+
     /// Restarts recognition seamlessly for always-on mode.
     /// Fires the current wake-detected text as final before restarting.
     private func restartListeningLoop() {

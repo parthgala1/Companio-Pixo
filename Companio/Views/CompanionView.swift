@@ -33,9 +33,10 @@ struct CompanionView: View {
         let isDance = speechVM.playModeVM.activeMode == .dance
         let isSilent = speechVM.playModeVM.activeMode == .silentCompanion
 
+        let intensity = companionVM.glowIntensity
         let glowRadius: CGFloat = isDance ? 220 : 160
-        let opacityHigh: Double = isSilent ? 0.06 : (isDance ? 0.35 : 0.18)
-        let opacityLow: Double = isSilent ? 0.02 : (isDance ? 0.12 : 0.06)
+        let opacityHigh: Double = (isSilent ? 0.06 : (isDance ? 0.35 : 0.18)) * intensity
+        let opacityLow: Double = (isSilent ? 0.02 : (isDance ? 0.12 : 0.06)) * intensity
         let glowSpeed: Double = isSilent ? 4.5 : (isDance ? 0.5 : 2.5)
 
         return Ellipse()

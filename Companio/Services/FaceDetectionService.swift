@@ -2,160 +2,275 @@ import Foundation
 import AVFoundation
 import Vision
 import Combine
+import CoreImage
 
 // MARK: - FaceEvent
 
-/// Data emitted when a face is detected.
 struct FaceEvent {
-    /// Normalized center of the face bounding box (0,0 = top-left, 1,1 = bottom-right).
-    let normalizedCenter: CGPoint
-    /// How close the face is: 0.0 = far, 1.0 = very close (based on bounding box area).
-    let proximityRatio: Double
-    /// Horizontal offset from screen center: -1.0 = far left, 1.0 = far right.
-    let horizontalOffset: Double
-    /// Raw bounding box in normalized image coordinates.
     let boundingBox: CGRect
+    let normalizedCenter: CGPoint
+    let proximityRatio: Double
+    let horizontalOffset: Double
+    let smileProbability: Double?
+    let leftEyeClosed: Bool?
+    let rightEyeClosed: Bool?
+    let yaw: Double?
+    let roll: Double?
+
+    init(boundingBox: CGRect,
+         normalizedCenter: CGPoint,
+         proximityRatio: Double,
+         horizontalOffset: Double,
+         smileProbability: Double? = nil,
+         leftEyeClosed: Bool? = nil,
+         rightEyeClosed: Bool? = nil,
+         yaw: Double? = nil,
+         roll: Double? = nil) {
+        self.boundingBox = boundingBox
+        self.normalizedCenter = normalizedCenter
+        self.proximityRatio = proximityRatio
+        self.horizontalOffset = horizontalOffset
+        self.smileProbability = smileProbability
+        self.leftEyeClosed = leftEyeClosed
+        self.rightEyeClosed = rightEyeClosed
+        self.yaw = yaw
+        self.roll = roll
+    }
+}
+
+// MARK: - FaceExpression
+
+struct FaceExpression {
+    var smile: Double = 0
+    var leftEyeClosed: Bool = false
+    var rightEyeClosed: Bool = false
+    var yaw: Double = 0
+    var roll: Double = 0
+
+    var reactionLabel: String {
+        if smile > 0.7 { return "😄 Big Smile!" }
+        if smile > 0.4 { return "🙂 Smiling" }
+        if leftEyeClosed && !rightEyeClosed { return "😉 Winking (L)" }
+        if rightEyeClosed && !leftEyeClosed { return "😉 Winking (R)" }
+        if leftEyeClosed && rightEyeClosed { return "😌 Eyes Closed" }
+        if abs(yaw) > 0.3 { return "👀 Looking Away" }
+        if abs(roll) > 0.25 { return "🤔 Head Tilt" }
+        return "😐 Neutral"
+    }
 }
 
 // MARK: - FaceDetectionService
 
-/// Manages the front camera session and runs Vision face detection.
-/// Emits `FaceEvent` via Combine. Throttled to ~10 fps to conserve CPU.
 final class FaceDetectionService: NSObject, ObservableObject {
 
-    // MARK: - Singleton
     static let shared = FaceDetectionService()
 
     // MARK: - Publishers
     let faceDetectedPublisher = PassthroughSubject<FaceEvent, Never>()
     let faceLostPublisher = PassthroughSubject<Void, Never>()
 
-    @Published private(set) var isRunning = false
+    // MARK: - Published
+    @Published private(set) var currentExpression = FaceExpression()
+    @Published private(set) var uiFaceBoundingBox: CGRect = .zero
     @Published private(set) var lastFaceEvent: FaceEvent?
 
+    // MARK: - Camera Access
+    var captureSessionForPreview: AVCaptureSession { _captureSession }
+
     // MARK: - Private
-    private let captureSession = AVCaptureSession()
+    private let _captureSession = AVCaptureSession()
     private let videoOutput = AVCaptureVideoDataOutput()
-    private let sessionQueue = DispatchQueue(label: "companio.facedetection.session", qos: .userInitiated)
-    private let processingQueue = DispatchQueue(label: "companio.facedetection.processing", qos: .utility)
+    private let processingQueue = DispatchQueue(label: "com.companio.facedetection", qos: .userInteractive)
+    private var lastProcessTime: CFAbsoluteTime = 0
+    private let minProcessInterval: CFTimeInterval = 0.1
+    private var isFaceCurrentlyDetected = false
 
-    // Throttle: only process a frame every ~100ms (10 fps)
-    private var lastProcessedTime: TimeInterval = 0
-    private let processingInterval: TimeInterval = 0.1
-
-    private var faceRequest: VNDetectFaceRectanglesRequest?
-    private var consecutiveMissedFrames = 0
-    private let maxMissedFramesBeforeLost = 5
+    // Vision requests
+    private var faceRectRequest: VNDetectFaceRectanglesRequest!
+    private var faceLandmarksRequest: VNDetectFaceLandmarksRequest!
 
     // MARK: - Init
+
     private override init() {
         super.init()
-        setupVisionRequest()
+        setupVisionRequests()
+        configureSession()
     }
 
-    // MARK: - Session Lifecycle
+    // MARK: - Lifecycle
 
     func start() {
-        guard !isRunning else { return }
-        sessionQueue.async { [weak self] in
-            self?.configureSession()
-            self?.captureSession.startRunning()
-            DispatchQueue.main.async { self?.isRunning = true }
+        processingQueue.async { [weak self] in
+            self?._captureSession.startRunning()
         }
     }
 
     func stop() {
-        guard isRunning else { return }
-        sessionQueue.async { [weak self] in
-            self?.captureSession.stopRunning()
-            DispatchQueue.main.async {
-                self?.isRunning = false
-                self?.lastFaceEvent = nil
-            }
+        processingQueue.async { [weak self] in
+            self?._captureSession.stopRunning()
         }
     }
 
     // MARK: - Session Configuration
 
     private func configureSession() {
-        captureSession.beginConfiguration()
-        captureSession.sessionPreset = .medium
+        _captureSession.sessionPreset = .medium
 
-        // Front camera
-        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
-              let input = try? AVCaptureDeviceInput(device: device),
-              captureSession.canAddInput(input) else {
-            captureSession.commitConfiguration()
-            return
+        guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front),
+              let input = try? AVCaptureDeviceInput(device: camera) else { return }
+
+        if _captureSession.canAddInput(input) {
+            _captureSession.addInput(input)
         }
-        captureSession.addInput(input)
 
-        // Video output
         videoOutput.setSampleBufferDelegate(self, queue: processingQueue)
         videoOutput.alwaysDiscardsLateVideoFrames = true
-        if captureSession.canAddOutput(videoOutput) {
-            captureSession.addOutput(videoOutput)
+
+        if _captureSession.canAddOutput(videoOutput) {
+            _captureSession.addOutput(videoOutput)
         }
 
-        // Set orientation
         if let connection = videoOutput.connection(with: .video) {
-            connection.videoRotationAngle = 90
-            if connection.isVideoMirroringSupported {
-                connection.isVideoMirrored = true
-            }
+            connection.isVideoMirrored = true
         }
-
-        captureSession.commitConfiguration()
     }
 
-    // MARK: - Vision
+    // MARK: - Vision Setup
 
-    private func setupVisionRequest() {
-        faceRequest = VNDetectFaceRectanglesRequest { [weak self] request, error in
-            guard let self else { return }
-            if let error {
-                print("[FaceDetection] Vision error: \(error)")
-                return
-            }
-            self.handleVisionResults(request.results as? [VNFaceObservation])
-        }
-        faceRequest?.revision = VNDetectFaceRectanglesRequestRevision3
+    private func setupVisionRequests() {
+        faceRectRequest = VNDetectFaceRectanglesRequest()
+        faceLandmarksRequest = VNDetectFaceLandmarksRequest()
     }
 
-    private func handleVisionResults(_ observations: [VNFaceObservation]?) {
-        guard let observations, !observations.isEmpty else {
-            consecutiveMissedFrames += 1
-            if consecutiveMissedFrames >= maxMissedFramesBeforeLost {
-                consecutiveMissedFrames = 0
+    // MARK: - Vision Processing
+
+    private func processFrame(_ sampleBuffer: CMSampleBuffer) {
+        let now = CFAbsoluteTimeGetCurrent()
+        guard now - lastProcessTime >= minProcessInterval else { return }
+        lastProcessTime = now
+
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .leftMirrored, options: [:])
+
+        do {
+            try handler.perform([faceRectRequest, faceLandmarksRequest])
+            handleVisionResults()
+        } catch {
+            // Silently discard
+        }
+    }
+
+    private func handleVisionResults() {
+        guard let faceObs = faceRectRequest.results?.first else {
+            if isFaceCurrentlyDetected {
+                isFaceCurrentlyDetected = false
                 DispatchQueue.main.async { [weak self] in
-                    self?.lastFaceEvent = nil
                     self?.faceLostPublisher.send()
+                    self?.uiFaceBoundingBox = .zero
+                    self?.lastFaceEvent = nil
                 }
             }
             return
         }
 
-        consecutiveMissedFrames = 0
+        isFaceCurrentlyDetected = true
 
-        // Use the largest (closest) face
-        guard let face = observations.max(by: { $0.boundingBox.area < $1.boundingBox.area }) else { return }
+        let bb = faceObs.boundingBox
+        let center = CGPoint(x: bb.midX, y: bb.midY)
+        let proximity = Double(bb.width * bb.height)
+        let hOffset = Double(center.x - 0.5) * 2.0
 
-        let box = face.boundingBox
-        // Vision coordinates: origin at bottom-left, flip Y for UIKit
-        let center = CGPoint(x: box.midX, y: 1.0 - box.midY)
-        let proximityRatio = Double(min(box.area * 4.0, 1.0)) // normalize area to 0-1
-        let horizontalOffset = Double((box.midX - 0.5) * 2.0).clamped(to: -1.0...1.0)
+        let yawValue = faceObs.yaw?.doubleValue ?? 0
+        let rollValue = faceObs.roll?.doubleValue ?? 0
+
+        var smileProb: Double? = nil
+        var leftEyeIsClosed: Bool? = nil
+        var rightEyeIsClosed: Bool? = nil
+
+        if let landmarkObs = faceLandmarksRequest.results?.first,
+           let landmarks = landmarkObs.landmarks {
+
+            // Smile estimation from outer lips
+            if let outerLips = landmarks.outerLips {
+                let points = outerLips.normalizedPoints
+                if points.count >= 6 {
+                    var minX: CGFloat = 1, maxX: CGFloat = 0
+                    var minY: CGFloat = 1, maxY: CGFloat = 0
+                    for p in points {
+                        if p.x < minX { minX = p.x }
+                        if p.x > maxX { maxX = p.x }
+                        if p.y < minY { minY = p.y }
+                        if p.y > maxY { maxY = p.y }
+                    }
+                    let lipWidth = maxX - minX
+                    let lipHeight = max(maxY - minY, 0.001)
+                    let ratio = lipWidth / lipHeight
+                    let normalized = (Double(ratio) - 1.5) / 2.0
+                    smileProb = min(max(normalized, 0), 1)
+                }
+            }
+
+            // Left eye closure
+            if let leftEye = landmarks.leftEye {
+                let pts = leftEye.normalizedPoints
+                if pts.count >= 4 {
+                    var minY: CGFloat = 1, maxY: CGFloat = 0
+                    for p in pts {
+                        if p.y < minY { minY = p.y }
+                        if p.y > maxY { maxY = p.y }
+                    }
+                    leftEyeIsClosed = (maxY - minY) < 0.025
+                }
+            }
+
+            // Right eye closure
+            if let rightEye = landmarks.rightEye {
+                let pts = rightEye.normalizedPoints
+                if pts.count >= 4 {
+                    var minY: CGFloat = 1, maxY: CGFloat = 0
+                    for p in pts {
+                        if p.y < minY { minY = p.y }
+                        if p.y > maxY { maxY = p.y }
+                    }
+                    rightEyeIsClosed = (maxY - minY) < 0.025
+                }
+            }
+        }
 
         let event = FaceEvent(
+            boundingBox: bb,
             normalizedCenter: center,
-            proximityRatio: proximityRatio,
-            horizontalOffset: horizontalOffset,
-            boundingBox: box
+            proximityRatio: proximity,
+            horizontalOffset: hOffset,
+            smileProbability: smileProb,
+            leftEyeClosed: leftEyeIsClosed,
+            rightEyeClosed: rightEyeIsClosed,
+            yaw: yawValue,
+            roll: rollValue
+        )
+
+        let expression = FaceExpression(
+            smile: smileProb ?? 0,
+            leftEyeClosed: leftEyeIsClosed ?? false,
+            rightEyeClosed: rightEyeIsClosed ?? false,
+            yaw: yawValue,
+            roll: rollValue
+        )
+
+        // Flip bounding box Y for UIKit coordinates
+        let uiBox = CGRect(
+            x: bb.origin.x,
+            y: 1.0 - bb.origin.y - bb.height,
+            width: bb.width,
+            height: bb.height
         )
 
         DispatchQueue.main.async { [weak self] in
-            self?.lastFaceEvent = event
             self?.faceDetectedPublisher.send(event)
+            self?.currentExpression = expression
+            self?.uiFaceBoundingBox = uiBox
+            self?.lastFaceEvent = event
         }
     }
 }
@@ -163,26 +278,7 @@ final class FaceDetectionService: NSObject, ObservableObject {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 
 extension FaceDetectionService: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput,
-                       didOutput sampleBuffer: CMSampleBuffer,
-                       from connection: AVCaptureConnection) {
-        // Throttle processing
-        let now = CACurrentMediaTime()
-        guard now - lastProcessedTime >= processingInterval else { return }
-        lastProcessedTime = now
-
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
-              let request = faceRequest else { return }
-
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
-                                            orientation: .up,
-                                            options: [:])
-        try? handler.perform([request])
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        processFrame(sampleBuffer)
     }
-}
-
-// MARK: - CGRect Helper
-
-private extension CGRect {
-    var area: CGFloat { width * height }
 }

@@ -10,6 +10,7 @@ struct RootView: View {
     @EnvironmentObject var speechVM: SpeechViewModel
 
     @State private var showSettings = false
+    @State private var showFaceDebug = false
     @State private var touchActive = false   // tracks whether first onChanged has fired
 
     private let touchManager = TouchInteractionManager.shared
@@ -57,13 +58,13 @@ struct RootView: View {
             // Floating conversation bar
             conversationBar
 
-            // Settings button — bottom right, barely visible
-            settingsButton
+            // Bottom-right buttons
+            bottomButtons
         }
         .ignoresSafeArea()
         .onAppear {
             companionVM.startIdleLoop()
-            // Start always-on "Hey Pixo" wake word listening
+            // Start always-on wake word listening
             speechVM.startAlwaysOnListening()
             if KeychainManager.shared.loadAPIKey() == nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -76,11 +77,13 @@ struct RootView: View {
                 .environmentObject(emotionVM)
                 .environmentObject(companionVM)
         }
+        .sheet(isPresented: $showFaceDebug) {
+            FaceDebugView(accentColor: companionVM.eyeColor)
+        }
     }
 
     // MARK: - Listening Ring
 
-    /// Subtle pulsing ring — only visual feedback for listening state.
     private var listeningRing: some View {
         Circle()
             .stroke(companionVM.eyeColor.opacity(0.25), lineWidth: 1.5)
@@ -95,7 +98,6 @@ struct RootView: View {
 
     // MARK: - Conversation Bar
 
-    /// Floating text bar at the bottom showing user speech (grey) and Pixo response (blue).
     private var conversationBar: some View {
         VStack {
             Spacer()
@@ -170,24 +172,41 @@ struct RootView: View {
         }
     }
 
-    // MARK: - Settings Button
+    // MARK: - Bottom Buttons
 
-    private var settingsButton: some View {
+    private var bottomButtons: some View {
         VStack {
             Spacer()
             HStack {
                 Spacer()
-                Button {
-                    showSettings = true
-                } label: {
-                    Circle()
-                        .fill(Color.white.opacity(0.06))
-                        .frame(width: 36, height: 36)
-                        .overlay(
-                            Image(systemName: "gearshape")
-                                .font(.system(size: 14, weight: .light))
-                                .foregroundColor(.white.opacity(0.3))
-                        )
+                VStack(spacing: 12) {
+                    // Face Recognition button
+                    Button {
+                        showFaceDebug = true
+                    } label: {
+                        Circle()
+                            .fill(Color.white.opacity(0.06))
+                            .frame(width: 36, height: 36)
+                            .overlay(
+                                Image(systemName: "faceid")
+                                    .font(.system(size: 14, weight: .light))
+                                    .foregroundColor(.white.opacity(0.3))
+                            )
+                    }
+
+                    // Settings button
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Circle()
+                            .fill(Color.white.opacity(0.06))
+                            .frame(width: 36, height: 36)
+                            .overlay(
+                                Image(systemName: "gearshape")
+                                    .font(.system(size: 14, weight: .light))
+                                    .foregroundColor(.white.opacity(0.3))
+                            )
+                    }
                 }
                 .padding(.trailing, 24)
                 .padding(.bottom, 48)
