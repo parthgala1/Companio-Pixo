@@ -1,0 +1,524 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00FC01CC9C6CB2F625F7CE51 /* MemoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8CF1E97B8B0B5269454B04 /* MemoryService.swift */; };
+		06D17B63117A90B26378DF0D /* IntentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B6041B349CF76A143126B /* IntentRouter.swift */; };
+		0E136C6470A91E5FCC309E51 /* UserMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEF881DCD4A6DD5E39E0E4 /* UserMemory.swift */; };
+		0E965B5F1DE36C6F42EF32AF /* ExpressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E038800A000EB36717E3D823 /* ExpressionView.swift */; };
+		16CE2EFF2DD96F2410EFBC29 /* PixoEmote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3383B40E9A76158F017F6A /* PixoEmote.swift */; };
+		22A73F1EEE4C1F93D13D4615 /* SpeechViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB94046B16103B7E593D78E0 /* SpeechViewModel.swift */; };
+		2618882E1F0ACC9A8321D1FC /* EmotionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700288D3AAE28EE9E5B780FB /* EmotionState.swift */; };
+		2E7421161F17BEE3833BA047 /* PlayOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */; };
+		3084BB1CC3E2D247E92CAF48 /* NavigationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72C21FE3327686CCF20C5BC /* NavigationService.swift */; };
+		3A8399765500DECC6DCEA681 /* TouchInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FAA75B83E92BBFE97FC27A /* TouchInteractionManager.swift */; };
+		3CF647FAC861FFFC148E58AA /* LLMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3005CEE193926CA0A1C87 /* LLMService.swift */; };
+		4D4DD6BFA0BCA2438E88CBA5 /* CompanionFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445421605965EC9C873EC635 /* CompanionFaceView.swift */; };
+		4D9C083B38AAD9A80A75C519 /* MoodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63198E57F25C7B3FC196E470 /* MoodType.swift */; };
+		54DB867AAF335A0E3031A1BA /* DanceAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EBC0FE2641CA1A41A6955 /* DanceAnimationController.swift */; };
+		5A991212B316F066D6131AF7 /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5693F4B8C89DD259912DF /* SoundService.swift */; };
+		63891F3F88BF716EB41E4D1A /* ElevenLabsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE37D0944D924F75D3263C0 /* ElevenLabsService.swift */; };
+		69D8EA6F88FB8F5E773D7502 /* EmotionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6E9CB5E351EE7ADC2334F9 /* EmotionEngine.swift */; };
+		7177CAF20AF7B64F5EF10560 /* EmotionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD09D9756F4CA6ECDB52DEB /* EmotionViewModel.swift */; };
+		77A760C100B9ED0CEDC6297E /* EyeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A86548A02AB4682960BD0D /* EyeView.swift */; };
+		822D21B2C7E262D5656440D1 /* PlayModeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F1E572933446EA24590AFE /* PlayModeViewModel.swift */; };
+		83691CBE172A199609AFAE0C /* FaceDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EE10ECE8656F2979EEE68E /* FaceDetectionService.swift */; };
+		83A21062D8D8875EA07B67F1 /* MouthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B423840FFEC4F98347A248 /* MouthView.swift */; };
+		86EA7D837AEC10D5E3830DF3 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290618CA352468F4AC68A048 /* RootView.swift */; };
+		89F688252A566491407A1C2C /* BehaviorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82EABD73ADB7840914BE90B /* BehaviorType.swift */; };
+		99F2C88C7DC1CEEB162CA9B6 /* BlinkDetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF528082D3A53B2B329A4D6 /* BlinkDetectionManager.swift */; };
+		9A1E665EC2D607985B446467 /* CompanioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8170A758B28F2F33E9D934F5 /* CompanioApp.swift */; };
+		A305EAE23285FF586E6A02E3 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE04A950A6ABAA07A57EBDE /* KeychainManager.swift */; };
+		B28C316C8D4DB668357F7C17 /* SpeechOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C220C655EC853CDC7F97FFE /* SpeechOverlayView.swift */; };
+		BCEE1DABEBC6E7F366F79B38 /* FeatureCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4C2E0AA73837874A59267 /* FeatureCommand.swift */; };
+		BD5960DE7BF075E040923502 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F388F5FBC73D37008069C4 /* SettingsView.swift */; };
+		BDBEEA23247618C9E7ADEDE0 /* EmoteOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E7D58BB98A5CAB6464570A /* EmoteOverlayView.swift */; };
+		BE7F29B8E04FDA43C6267B50 /* HandsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6CF9BE9A605DD65F00EBCF8 /* HandsView.swift */; };
+		BF65444CF7EA5DFC7A015D2E /* TouchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3474F0E2B5F766A767A6661 /* TouchEvent.swift */; };
+		BFE7BBBCF0089FC5F994C7A0 /* CopyModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA90846396F93F8FB4F29D7C /* CopyModeManager.swift */; };
+		C7E813EC3E5D4D3A0CF72300 /* MoodClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F4AA869E03149C72113F72 /* MoodClassifier.swift */; };
+		E442F61729EFFEC1766BEAA4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D10415333634ECE540A4EC /* Extensions.swift */; };
+		E8FB1E19275D72B62B2EC7EC /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CA1082E657D77DFE28DC47 /* SpeechService.swift */; };
+		FA5BE7F08846B9626988FE27 /* CompanionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA22C34D039AED5AD68C3AC /* CompanionViewModel.swift */; };
+		FAFFC45BB6261A760AA7F64C /* PersonalityPrompt.txt in Resources */ = {isa = PBXBuildFile; fileRef = 139F68F377285C1674B57BA0 /* PersonalityPrompt.txt */; };
+		FFB10A559E3B17BB1C5143B6 /* CompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A823F917EC8AC633D37519C9 /* CompanionView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		07B423840FFEC4F98347A248 /* MouthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthView.swift; sourceTree = "<group>"; };
+		088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOverlayView.swift; sourceTree = "<group>"; };
+		09EE10ECE8656F2979EEE68E /* FaceDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectionService.swift; sourceTree = "<group>"; };
+		0E8CF1E97B8B0B5269454B04 /* MemoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryService.swift; sourceTree = "<group>"; };
+		139F68F377285C1674B57BA0 /* PersonalityPrompt.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PersonalityPrompt.txt; sourceTree = "<group>"; };
+		1AF528082D3A53B2B329A4D6 /* BlinkDetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkDetectionManager.swift; sourceTree = "<group>"; };
+		1C220C655EC853CDC7F97FFE /* SpeechOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechOverlayView.swift; sourceTree = "<group>"; };
+		1D3383B40E9A76158F017F6A /* PixoEmote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixoEmote.swift; sourceTree = "<group>"; };
+		1FB5693F4B8C89DD259912DF /* SoundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundService.swift; sourceTree = "<group>"; };
+		290618CA352468F4AC68A048 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		31F388F5FBC73D37008069C4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		31F4AA869E03149C72113F72 /* MoodClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodClassifier.swift; sourceTree = "<group>"; };
+		34CA1082E657D77DFE28DC47 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		38D10415333634ECE540A4EC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		445421605965EC9C873EC635 /* CompanionFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionFaceView.swift; sourceTree = "<group>"; };
+		481CCDDF98EE8281ECA2692E /* Companio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Companio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EA22C34D039AED5AD68C3AC /* CompanionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionViewModel.swift; sourceTree = "<group>"; };
+		60FEF881DCD4A6DD5E39E0E4 /* UserMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemory.swift; sourceTree = "<group>"; };
+		63198E57F25C7B3FC196E470 /* MoodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodType.swift; sourceTree = "<group>"; };
+		658EBC0FE2641CA1A41A6955 /* DanceAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceAnimationController.swift; sourceTree = "<group>"; };
+		700288D3AAE28EE9E5B780FB /* EmotionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionState.swift; sourceTree = "<group>"; };
+		8170A758B28F2F33E9D934F5 /* CompanioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanioApp.swift; sourceTree = "<group>"; };
+		84B4C2E0AA73837874A59267 /* FeatureCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCommand.swift; sourceTree = "<group>"; };
+		97A86548A02AB4682960BD0D /* EyeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeView.swift; sourceTree = "<group>"; };
+		9AA3005CEE193926CA0A1C87 /* LLMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMService.swift; sourceTree = "<group>"; };
+		A6CF9BE9A605DD65F00EBCF8 /* HandsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandsView.swift; sourceTree = "<group>"; };
+		A823F917EC8AC633D37519C9 /* CompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionView.swift; sourceTree = "<group>"; };
+		A8F1E572933446EA24590AFE /* PlayModeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayModeViewModel.swift; sourceTree = "<group>"; };
+		AEE04A950A6ABAA07A57EBDE /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		B3FAA75B83E92BBFE97FC27A /* TouchInteractionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchInteractionManager.swift; sourceTree = "<group>"; };
+		C3474F0E2B5F766A767A6661 /* TouchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchEvent.swift; sourceTree = "<group>"; };
+		C63B6041B349CF76A143126B /* IntentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentRouter.swift; sourceTree = "<group>"; };
+		C82EABD73ADB7840914BE90B /* BehaviorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorType.swift; sourceTree = "<group>"; };
+		CB6E9CB5E351EE7ADC2334F9 /* EmotionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionEngine.swift; sourceTree = "<group>"; };
+		D11B5DA85410E369AD9C8412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D6E7D58BB98A5CAB6464570A /* EmoteOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoteOverlayView.swift; sourceTree = "<group>"; };
+		D72C21FE3327686CCF20C5BC /* NavigationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationService.swift; sourceTree = "<group>"; };
+		DA90846396F93F8FB4F29D7C /* CopyModeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyModeManager.swift; sourceTree = "<group>"; };
+		DDD09D9756F4CA6ECDB52DEB /* EmotionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmotionViewModel.swift; sourceTree = "<group>"; };
+		E038800A000EB36717E3D823 /* ExpressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionView.swift; sourceTree = "<group>"; };
+		EB94046B16103B7E593D78E0 /* SpeechViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewModel.swift; sourceTree = "<group>"; };
+		FEE37D0944D924F75D3263C0 /* ElevenLabsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevenLabsService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		022D6323225ACBDE66F8B57D /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		2007C7DDB114794CAD261F9F = {
+			isa = PBXGroup;
+			children = (
+				69FD4A3CCCDE70D6AFA82656 /* Companio */,
+				FA6BF179E7F7F596C23A7384 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		484BCC1970A4730B7E22E4CB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				38D10415333634ECE540A4EC /* Extensions.swift */,
+				AEE04A950A6ABAA07A57EBDE /* KeychainManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		51E801E80A14F42296E23414 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4EA22C34D039AED5AD68C3AC /* CompanionViewModel.swift */,
+				DDD09D9756F4CA6ECDB52DEB /* EmotionViewModel.swift */,
+				A8F1E572933446EA24590AFE /* PlayModeViewModel.swift */,
+				EB94046B16103B7E593D78E0 /* SpeechViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5460CFD8E94DD0759592AAF5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8170A758B28F2F33E9D934F5 /* CompanioApp.swift */,
+				290618CA352468F4AC68A048 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		69FD4A3CCCDE70D6AFA82656 /* Companio */ = {
+			isa = PBXGroup;
+			children = (
+				D11B5DA85410E369AD9C8412 /* Info.plist */,
+				5460CFD8E94DD0759592AAF5 /* App */,
+				022D6323225ACBDE66F8B57D /* Assets */,
+				78C65BF28F76400EF978A6FB /* Models */,
+				8AAAC5714D0BAC7DFA6D6AD5 /* Resources */,
+				C0099AF2345992F852776D00 /* Services */,
+				484BCC1970A4730B7E22E4CB /* Utilities */,
+				51E801E80A14F42296E23414 /* ViewModels */,
+				BCDCEAC8E483145CFDFBAF6B /* Views */,
+			);
+			path = Companio;
+			sourceTree = "<group>";
+		};
+		78C65BF28F76400EF978A6FB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C82EABD73ADB7840914BE90B /* BehaviorType.swift */,
+				700288D3AAE28EE9E5B780FB /* EmotionState.swift */,
+				84B4C2E0AA73837874A59267 /* FeatureCommand.swift */,
+				63198E57F25C7B3FC196E470 /* MoodType.swift */,
+				1D3383B40E9A76158F017F6A /* PixoEmote.swift */,
+				60FEF881DCD4A6DD5E39E0E4 /* UserMemory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8AAAC5714D0BAC7DFA6D6AD5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				139F68F377285C1674B57BA0 /* PersonalityPrompt.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BCDCEAC8E483145CFDFBAF6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				445421605965EC9C873EC635 /* CompanionFaceView.swift */,
+				A823F917EC8AC633D37519C9 /* CompanionView.swift */,
+				D6E7D58BB98A5CAB6464570A /* EmoteOverlayView.swift */,
+				E038800A000EB36717E3D823 /* ExpressionView.swift */,
+				97A86548A02AB4682960BD0D /* EyeView.swift */,
+				A6CF9BE9A605DD65F00EBCF8 /* HandsView.swift */,
+				07B423840FFEC4F98347A248 /* MouthView.swift */,
+				088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */,
+				31F388F5FBC73D37008069C4 /* SettingsView.swift */,
+				1C220C655EC853CDC7F97FFE /* SpeechOverlayView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C0099AF2345992F852776D00 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1AF528082D3A53B2B329A4D6 /* BlinkDetectionManager.swift */,
+				DA90846396F93F8FB4F29D7C /* CopyModeManager.swift */,
+				658EBC0FE2641CA1A41A6955 /* DanceAnimationController.swift */,
+				FEE37D0944D924F75D3263C0 /* ElevenLabsService.swift */,
+				CB6E9CB5E351EE7ADC2334F9 /* EmotionEngine.swift */,
+				09EE10ECE8656F2979EEE68E /* FaceDetectionService.swift */,
+				C63B6041B349CF76A143126B /* IntentRouter.swift */,
+				9AA3005CEE193926CA0A1C87 /* LLMService.swift */,
+				0E8CF1E97B8B0B5269454B04 /* MemoryService.swift */,
+				31F4AA869E03149C72113F72 /* MoodClassifier.swift */,
+				D72C21FE3327686CCF20C5BC /* NavigationService.swift */,
+				1FB5693F4B8C89DD259912DF /* SoundService.swift */,
+				34CA1082E657D77DFE28DC47 /* SpeechService.swift */,
+				C3474F0E2B5F766A767A6661 /* TouchEvent.swift */,
+				B3FAA75B83E92BBFE97FC27A /* TouchInteractionManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FA6BF179E7F7F596C23A7384 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				481CCDDF98EE8281ECA2692E /* Companio.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC3518A14326B4A956483FB7 /* Companio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3213810ABF38973DB3F83192 /* Build configuration list for PBXNativeTarget "Companio" */;
+			buildPhases = (
+				5E5EC91EAABEF6422C8CBE61 /* Sources */,
+				ED23FA9D83543BF17008F0CC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Companio;
+			packageProductDependencies = (
+			);
+			productName = Companio;
+			productReference = 481CCDDF98EE8281ECA2692E /* Companio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D7D13549E729178A9F932956 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 1167160286934844AA00C0D4 /* Build configuration list for PBXProject "Companio" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 2007C7DDB114794CAD261F9F;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC3518A14326B4A956483FB7 /* Companio */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ED23FA9D83543BF17008F0CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAFFC45BB6261A760AA7F64C /* PersonalityPrompt.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5E5EC91EAABEF6422C8CBE61 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89F688252A566491407A1C2C /* BehaviorType.swift in Sources */,
+				99F2C88C7DC1CEEB162CA9B6 /* BlinkDetectionManager.swift in Sources */,
+				9A1E665EC2D607985B446467 /* CompanioApp.swift in Sources */,
+				4D4DD6BFA0BCA2438E88CBA5 /* CompanionFaceView.swift in Sources */,
+				FFB10A559E3B17BB1C5143B6 /* CompanionView.swift in Sources */,
+				FA5BE7F08846B9626988FE27 /* CompanionViewModel.swift in Sources */,
+				BFE7BBBCF0089FC5F994C7A0 /* CopyModeManager.swift in Sources */,
+				54DB867AAF335A0E3031A1BA /* DanceAnimationController.swift in Sources */,
+				63891F3F88BF716EB41E4D1A /* ElevenLabsService.swift in Sources */,
+				BDBEEA23247618C9E7ADEDE0 /* EmoteOverlayView.swift in Sources */,
+				69D8EA6F88FB8F5E773D7502 /* EmotionEngine.swift in Sources */,
+				2618882E1F0ACC9A8321D1FC /* EmotionState.swift in Sources */,
+				7177CAF20AF7B64F5EF10560 /* EmotionViewModel.swift in Sources */,
+				0E965B5F1DE36C6F42EF32AF /* ExpressionView.swift in Sources */,
+				E442F61729EFFEC1766BEAA4 /* Extensions.swift in Sources */,
+				77A760C100B9ED0CEDC6297E /* EyeView.swift in Sources */,
+				83691CBE172A199609AFAE0C /* FaceDetectionService.swift in Sources */,
+				BCEE1DABEBC6E7F366F79B38 /* FeatureCommand.swift in Sources */,
+				BE7F29B8E04FDA43C6267B50 /* HandsView.swift in Sources */,
+				06D17B63117A90B26378DF0D /* IntentRouter.swift in Sources */,
+				A305EAE23285FF586E6A02E3 /* KeychainManager.swift in Sources */,
+				3CF647FAC861FFFC148E58AA /* LLMService.swift in Sources */,
+				00FC01CC9C6CB2F625F7CE51 /* MemoryService.swift in Sources */,
+				C7E813EC3E5D4D3A0CF72300 /* MoodClassifier.swift in Sources */,
+				4D9C083B38AAD9A80A75C519 /* MoodType.swift in Sources */,
+				83A21062D8D8875EA07B67F1 /* MouthView.swift in Sources */,
+				3084BB1CC3E2D247E92CAF48 /* NavigationService.swift in Sources */,
+				16CE2EFF2DD96F2410EFBC29 /* PixoEmote.swift in Sources */,
+				822D21B2C7E262D5656440D1 /* PlayModeViewModel.swift in Sources */,
+				2E7421161F17BEE3833BA047 /* PlayOverlayView.swift in Sources */,
+				86EA7D837AEC10D5E3830DF3 /* RootView.swift in Sources */,
+				BD5960DE7BF075E040923502 /* SettingsView.swift in Sources */,
+				5A991212B316F066D6131AF7 /* SoundService.swift in Sources */,
+				B28C316C8D4DB668357F7C17 /* SpeechOverlayView.swift in Sources */,
+				E8FB1E19275D72B62B2EC7EC /* SpeechService.swift in Sources */,
+				22A73F1EEE4C1F93D13D4615 /* SpeechViewModel.swift in Sources */,
+				BF65444CF7EA5DFC7A015D2E /* TouchEvent.swift in Sources */,
+				3A8399765500DECC6DCEA681 /* TouchInteractionManager.swift in Sources */,
+				0E136C6470A91E5FCC309E51 /* UserMemory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		14EBE24F9DE72899BD29D09C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = VY2RF7NG2Q;
+				INFOPLIST_FILE = Companio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.companio.app;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5CE7A87D1561E2EC63419D8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Companio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.companio.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		8A3D47A9B8718BAEE7002B8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = VY2RF7NG2Q;
+				INFOPLIST_FILE = Companio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.companio.app;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C7F5459C43D41BF2A7E70376 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Companio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.companio.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1167160286934844AA00C0D4 /* Build configuration list for PBXProject "Companio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CE7A87D1561E2EC63419D8D /* Debug */,
+				C7F5459C43D41BF2A7E70376 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3213810ABF38973DB3F83192 /* Build configuration list for PBXNativeTarget "Companio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				14EBE24F9DE72899BD29D09C /* Debug */,
+				8A3D47A9B8718BAEE7002B8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D7D13549E729178A9F932956 /* Project object */;
+}
