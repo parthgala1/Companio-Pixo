@@ -19,7 +19,7 @@ struct CompanioApp: App {
         let touch = TouchInteractionManager.shared
 
         let eVM = EmotionViewModel(emotionEngine: engine, soundService: sound)
-        let cVM = CompanionViewModel(emotionEngine: engine, soundService: sound, touchManager: touch)
+        let cVM = CompanionViewModel(emotionEngine: engine, soundService: sound, touchManager: touch, batteryService: BatteryService.shared)
         let sVM = SpeechViewModel(
             emotionEngine: engine,
             memoryService: memory,

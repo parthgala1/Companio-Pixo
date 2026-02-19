@@ -19,6 +19,19 @@ struct CameraPreviewView: UIViewRepresentable {
     class PreviewUIView: UIView {
         override class var layerClass: AnyClass { AVCaptureVideoPreviewLayer.self }
         var previewLayer: AVCaptureVideoPreviewLayer { layer as! AVCaptureVideoPreviewLayer }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            guard let connection = previewLayer.connection,
+                  connection.isVideoOrientationSupported else { return }
+            switch UIDevice.current.orientation {
+            case .portrait:            connection.videoOrientation = .portrait
+            case .landscapeLeft:       connection.videoOrientation = .landscapeRight
+            case .landscapeRight:      connection.videoOrientation = .landscapeLeft
+            case .portraitUpsideDown:   connection.videoOrientation = .portraitUpsideDown
+            default: break
+            }
+        }
     }
 }
 
@@ -30,16 +43,22 @@ struct FaceDebugView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack {
-            Color.black.ignoresSafeArea()
+        GeometryReader { geometry in
+            let isLandscape = geometry.size.width > geometry.size.height
 
-            VStack(spacing: 20) {
-                header
-                cameraSection
-                expressionCard
-                Spacer()
+            ZStack {
+                Color.black.ignoresSafeArea()
+
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: isLandscape ? 12 : 20) {
+                        header
+                        cameraContent(height: isLandscape ? max(geometry.size.height - 160, 180) : 400)
+                        expressionCard
+                        Spacer(minLength: 16)
+                    }
+                    .padding(.top, 16)
+                }
             }
-            .padding(.top, 16)
         }
     }
 
@@ -67,7 +86,7 @@ struct FaceDebugView: View {
 
     // MARK: - Camera Section
 
-    private var cameraSection: some View {
+    private func cameraContent(height: CGFloat) -> some View {
         GeometryReader { geo in
             ZStack {
                 CameraPreviewView(session: faceService.captureSessionForPreview)
@@ -98,7 +117,7 @@ struct FaceDebugView: View {
                 }
             }
         }
-        .frame(height: 400)
+        .frame(height: height)
         .padding(.horizontal, 20)
     }
 

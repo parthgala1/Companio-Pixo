@@ -61,6 +61,8 @@ struct EmoteOverlayView: View {
             angerPulseView
         case .hummingNote:
             hummingNoteView
+        case .chargingBattery:
+            chargingBatteryView
         }
     }
 
@@ -342,6 +344,48 @@ struct EmoteOverlayView: View {
             .offset(x: faceWidth * 0.05, y: -faceWidth * 0.55)
             .scaleEffect(animatePhase ? 1.08 : 0.94)
     }
+
+    // MARK: - Charging Battery
+
+    private var chargingBatteryView: some View {
+        ZStack {
+            // Battery outline
+            RoundedRectangle(cornerRadius: 3, style: .continuous)
+                .stroke(Color.green.opacity(0.9), lineWidth: 2)
+                .frame(width: faceWidth * 0.16, height: faceWidth * 0.09)
+
+            // Battery cap
+            RoundedRectangle(cornerRadius: 1, style: .continuous)
+                .fill(Color.green.opacity(0.7))
+                .frame(width: faceWidth * 0.02, height: faceWidth * 0.045)
+                .offset(x: faceWidth * 0.09)
+
+            // Animated fill — grows from left to right
+            RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [Color.green.opacity(0.9), Color.green.opacity(0.6)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .frame(
+                    width: animatePhase ? faceWidth * 0.12 : faceWidth * 0.04,
+                    height: faceWidth * 0.06
+                )
+                .offset(x: animatePhase ? 0 : -faceWidth * 0.035)
+
+            // Lightning bolt
+            LightningBoltShape()
+                .fill(Color.yellow)
+                .frame(width: faceWidth * 0.05, height: faceWidth * 0.07)
+                .shadow(color: Color.yellow.opacity(0.6), radius: 4)
+                .opacity(animatePhase ? 1.0 : 0.5)
+        }
+        .shadow(color: Color.green.opacity(0.5), radius: 8)
+        .offset(x: -faceWidth * 0.38, y: faceWidth * 0.48)
+        .scaleEffect(animatePhase ? 1.05 : 0.95)
+    }
 }
 
 // MARK: - Custom Shapes
@@ -469,6 +513,25 @@ struct ThumbsUpShape: Shape {
 
         path.move(to: CGPoint(x: w * 0.25, y: h * 0.75))
         path.addLine(to: CGPoint(x: w * 0.75, y: h * 0.75))
+
+        return path
+    }
+}
+
+/// A lightning bolt shape for the charging battery overlay.
+struct LightningBoltShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        path.move(to: CGPoint(x: w * 0.55, y: 0))
+        path.addLine(to: CGPoint(x: w * 0.2, y: h * 0.5))
+        path.addLine(to: CGPoint(x: w * 0.48, y: h * 0.5))
+        path.addLine(to: CGPoint(x: w * 0.38, y: h))
+        path.addLine(to: CGPoint(x: w * 0.8, y: h * 0.42))
+        path.addLine(to: CGPoint(x: w * 0.52, y: h * 0.42))
+        path.closeSubpath()
 
         return path
     }

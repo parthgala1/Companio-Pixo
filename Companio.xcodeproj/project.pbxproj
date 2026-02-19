@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00FC01CC9C6CB2F625F7CE51 /* MemoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8CF1E97B8B0B5269454B04 /* MemoryService.swift */; };
 		06D17B63117A90B26378DF0D /* IntentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63B6041B349CF76A143126B /* IntentRouter.swift */; };
+		0A1B2C3D4E5F6A7B8C9D0E1F /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1B2C3D4E5F6A7B8C9D0E2F /* BatteryService.swift */; };
 		0E136C6470A91E5FCC309E51 /* UserMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEF881DCD4A6DD5E39E0E4 /* UserMemory.swift */; };
 		0E965B5F1DE36C6F42EF32AF /* ExpressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E038800A000EB36717E3D823 /* ExpressionView.swift */; };
 		16CE2EFF2DD96F2410EFBC29 /* PixoEmote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3383B40E9A76158F017F6A /* PixoEmote.swift */; };
@@ -54,6 +55,7 @@
 		07B423840FFEC4F98347A248 /* MouthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouthView.swift; sourceTree = "<group>"; };
 		088CFE69FA2311C588D37D71 /* PlayOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayOverlayView.swift; sourceTree = "<group>"; };
 		09EE10ECE8656F2979EEE68E /* FaceDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetectionService.swift; sourceTree = "<group>"; };
+		0A1B2C3D4E5F6A7B8C9D0E2F /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
 		0E8CF1E97B8B0B5269454B04 /* MemoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryService.swift; sourceTree = "<group>"; };
 		139F68F377285C1674B57BA0 /* PersonalityPrompt.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PersonalityPrompt.txt; sourceTree = "<group>"; };
 		1AF528082D3A53B2B329A4D6 /* BlinkDetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkDetectionManager.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		C0099AF2345992F852776D00 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0A1B2C3D4E5F6A7B8C9D0E2F /* BatteryService.swift */,
 				1AF528082D3A53B2B329A4D6 /* BlinkDetectionManager.swift */,
 				DA90846396F93F8FB4F29D7C /* CopyModeManager.swift */,
 				658EBC0FE2641CA1A41A6955 /* DanceAnimationController.swift */,
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A1B2C3D4E5F6A7B8C9D0E1F /* BatteryService.swift in Sources */,
 				89F688252A566491407A1C2C /* BehaviorType.swift in Sources */,
 				99F2C88C7DC1CEEB162CA9B6 /* BlinkDetectionManager.swift in Sources */,
 				9A1E665EC2D607985B446467 /* CompanioApp.swift in Sources */,

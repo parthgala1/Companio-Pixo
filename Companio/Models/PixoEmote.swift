@@ -17,6 +17,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
     case laughing    // Squint eyes + "HA" text
     case sleeping    // Line eyes + "ZZZ" + small "o"
     case love        // Heart replaces entire face
+    case charging    // Happy eyes + wide smile + charging battery overlay
 
     var id: String { rawValue }
 
@@ -36,6 +37,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return .happySquint
         case .sleeping:   return .sleepLine
         case .love:       return .hidden
+        case .charging:   return .normal
         }
     }
 
@@ -53,6 +55,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return .happySquint
         case .sleeping:   return .sleepLine
         case .love:       return .hidden
+        case .charging:   return .normal
         }
     }
 
@@ -70,6 +73,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return .frown      // inverted arc under squint eyes
         case .sleeping:   return .surprise   // small "O"
         case .love:       return .neutral    // hidden behind heart
+        case .charging:   return .smile
         }
     }
 
@@ -87,6 +91,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return 0.0
         case .sleeping:   return 0.0
         case .love:       return 0.0
+        case .charging:   return -0.15
         }
     }
 
@@ -94,6 +99,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
     var showsFace: Bool {
         self != .love
     }
+
 
     /// Whether eyebrows should be hidden for this emote.
     var hidesBrows: Bool {
@@ -112,6 +118,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .shocked:    return 1.3
         case .sad:        return 0.9
         case .sleeping:   return 0.8
+        case .charging:   return 1.1
         default:          return 1.0
         }
     }
@@ -128,6 +135,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return [.haText]
         case .sleeping:   return [.zzz]
         case .love:       return [.heart]
+        case .charging:   return [.chargingBattery, .sparkle]
         default:          return []
         }
     }
@@ -149,6 +157,7 @@ enum PixoEmote: String, CaseIterable, Identifiable {
         case .laughing:   return .excited
         case .sleeping:   return .sleepy
         case .love:       return .happy
+        case .charging:   return .happy
         }
     }
 }
@@ -188,6 +197,7 @@ enum EmoteOverlayElement: Equatable, Hashable {
     case softHalo         // Gentle ring above head
     case angerPulse       // Red cross anger mark
     case hummingNote      // "~" above head
+    case chargingBattery  // Green battery with lightning bolt
 }
 
 // MARK: - ActiveOverlay

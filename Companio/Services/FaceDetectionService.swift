@@ -3,6 +3,7 @@ import AVFoundation
 import Vision
 import Combine
 import CoreImage
+import UIKit
 
 // MARK: - FaceEvent
 
@@ -84,6 +85,7 @@ final class FaceDetectionService: NSObject, ObservableObject {
     private var lastProcessTime: CFAbsoluteTime = 0
     private let minProcessInterval: CFTimeInterval = 0.1
     private var isFaceCurrentlyDetected = false
+    private var currentDeviceOrientation: UIDeviceOrientation = .portrait
 
     // Vision requests
     private var faceRectRequest: VNDetectFaceRectanglesRequest!
@@ -95,6 +97,37 @@ final class FaceDetectionService: NSObject, ObservableObject {
         super.init()
         setupVisionRequests()
         configureSession()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(deviceOrientationChanged),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil
+        )
+        DispatchQueue.main.async {
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        }
+    }
+
+    // MARK: - Orientation Tracking
+
+    @objc private func deviceOrientationChanged() {
+        let orientation = UIDevice.current.orientation
+        if orientation.isValidInterfaceOrientation {
+            currentDeviceOrientation = orientation
+        }
+    }
+
+    /// Maps device orientation to CGImagePropertyOrientation for the front camera
+    /// with `isVideoMirrored = true` on the capture connection.
+    private func visionOrientation() -> CGImagePropertyOrientation {
+        switch currentDeviceOrientation {
+        case .portrait:            return .leftMirrored
+        case .portraitUpsideDown:  return .rightMirrored
+        case .landscapeLeft:       return .downMirrored
+        case .landscapeRight:      return .upMirrored
+        default:                   return .leftMirrored
+        }
     }
 
     // MARK: - Lifecycle
@@ -151,7 +184,7 @@ final class FaceDetectionService: NSObject, ObservableObject {
 
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
 
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .leftMirrored, options: [:])
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: visionOrientation(), options: [:])
 
         do {
             try handler.perform([faceRectRequest, faceLandmarksRequest])
@@ -206,7 +239,7 @@ final class FaceDetectionService: NSObject, ObservableObject {
                     let lipWidth = maxX - minX
                     let lipHeight = max(maxY - minY, 0.001)
                     let ratio = lipWidth / lipHeight
-                    let normalized = (Double(ratio) - 1.5) / 2.0
+                    let normalized = (Double(ratio) - 1.5) / 1.5
                     smileProb = min(max(normalized, 0), 1)
                 }
             }

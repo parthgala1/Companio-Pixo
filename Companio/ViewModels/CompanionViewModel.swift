@@ -55,6 +55,7 @@ final class CompanionViewModel: ObservableObject {
     private let faceDetectionService: FaceDetectionService
     private let soundService: SoundService
     private let touchManager: TouchInteractionManager
+    private let batteryService: BatteryService
 
     // MARK: - Combine
     private var cancellables = Set<AnyCancellable>()
@@ -85,11 +86,13 @@ final class CompanionViewModel: ObservableObject {
     init(emotionEngine: EmotionEngine = .shared,
          faceDetectionService: FaceDetectionService = .shared,
          soundService: SoundService = .shared,
-         touchManager: TouchInteractionManager = .shared) {
+         touchManager: TouchInteractionManager = .shared,
+         batteryService: BatteryService = .shared) {
         self.emotionEngine = emotionEngine
         self.faceDetectionService = faceDetectionService
         self.soundService = soundService
         self.touchManager = touchManager
+        self.batteryService = batteryService
         bindToServices()
     }
 
@@ -143,6 +146,18 @@ final class CompanionViewModel: ObservableObject {
         touchManager.$phase
             .receive(on: DispatchQueue.main)
             .sink { [weak self] phase in self?.updateTouchPhaseVisual(phase) }
+            .store(in: &cancellables)
+
+        // MARK: Battery Subscriptions
+
+        batteryService.lowBatteryPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] level in self?.handleLowBattery(level: level) }
+            .store(in: &cancellables)
+
+        batteryService.chargingStatePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isCharging in self?.handleChargingStateChanged(isCharging: isCharging) }
             .store(in: &cancellables)
     }
 
@@ -495,6 +510,46 @@ final class CompanionViewModel: ObservableObject {
         if shouldActivate != smallEyesActive {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                 smallEyesActive = shouldActivate
+            }
+        }
+    }
+
+    // MARK: - Battery Reactions
+
+    /// Triggered when battery drops to ≤20%. Shows tired/low-battery emote.
+    private func handleLowBattery(level: Double) {
+        // Don't interrupt active speech or touch reactions
+        guard !isTalking, !isReacting else { return }
+
+        showEmote(.lowBattery, duration: 5.0)
+
+        // TODO: Expose engine-level API to adjust energy/arousal without mutating state directly.
+        // e.g., emotionEngine.adjustEnergy(by:) / adjustArousal(by:)
+        // emotionEngine.state.adjustEnergy(by: -0.3)
+        // emotionEngine.state.adjustArousal(by: -0.2)
+
+        soundService.play(.thinking, emotionState: emotionEngine.state)
+    }
+
+    /// Triggered when charging cable is plugged in or removed.
+    private func handleChargingStateChanged(isCharging: Bool) {
+        // Don't interrupt active speech or touch reactions
+        guard !isTalking, !isReacting else { return }
+
+        if isCharging {
+            // Plugged in — show refreshed/charging emote
+            showEmote(.charging, duration: 5.0)
+
+            // TODO: Expose engine-level API to adjust energy/valence without mutating state directly.
+            // e.g., emotionEngine.adjustEnergy(by:) / adjustValence(by:)
+            // emotionEngine.state.adjustEnergy(by: 0.2)
+            // emotionEngine.state.adjustValence(by: 0.15)
+
+            soundService.play(.happy, emotionState: emotionEngine.state)
+        } else {
+            // Unplugged — brief reaction if battery is still low
+            if batteryService.batteryLevel <= batteryService.lowBatteryThreshold {
+                showEmote(.lowBattery, duration: 3.0)
             }
         }
     }
